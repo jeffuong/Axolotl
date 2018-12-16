@@ -1,10 +1,17 @@
-#find_package(Qt5Widgets REQUIRED)
+#set(CMAKE_PREFIX_PATH "/Users/jeffrey.uong/Qt5.12.0/5.12.0/clang_64")
 
-#set(CMAKE_AUTOMOC ON)
-#set(CMAKE_AUTOUIC ON)
-#set(CMAKE_INCLUDE_CURRENT_DIR ON)
+find_package(Qt5Widgets CONFIG REQUIRED)
 
-set(main_src "main.cpp")
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(main_src 
+  "main.cpp"
+  "mainwindow.cpp"
+  "mainwindow.ui" 
+)
 
 add_executable(Notefad ${main_src})
-#target_link_libraries(Notefad Qt5::Widgets)
+target_link_libraries(Notefad Qt5::Widgets)
