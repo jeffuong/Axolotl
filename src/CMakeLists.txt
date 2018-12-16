@@ -1,5 +1,3 @@
-#set(CMAKE_PREFIX_PATH "/Users/jeffrey.uong/Qt5.12.0/5.12.0/clang_64")
-
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 
