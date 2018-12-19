@@ -1,5 +1,5 @@
 find_package(Qt5Widgets CONFIG REQUIRED)
-
+find_package(Qt5PrintSupport REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -13,3 +13,4 @@ set(main_src
 
 add_executable(Notefad ${main_src})
 target_link_libraries(Notefad Qt5::Widgets)
+target_link_libraries(Notefad Qt5::PrintSupport)

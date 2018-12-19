@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/imgs">
+        <file>imgs/addfile.png</file>
+        <file>imgs/copy.png</file>
+        <file>imgs/exit.png</file>
+        <file>imgs/printer (1).png</file>
+        <file>imgs/redo.png</file>
+        <file>imgs/save.png</file>
+        <file>imgs/saveas.png</file>
+        <file>imgs/scissors (1).png</file>
+        <file>imgs/undo.png</file>
+        <file>imgs/opened.png</file>
+        <file>imgs/paste.png</file>
+        <file>imgs/font.png</file>
+    </qresource>
+</RCC>
