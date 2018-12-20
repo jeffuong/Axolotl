@@ -6,9 +6,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setCentralWidget(ui->textEdit);
+    this->setCentralWidget(ui->plainTextEdit);
 
-    // Disable menu actions for unavailable features
+// Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
     ui->actionPrint->setEnabled(false);
 #endif
@@ -28,7 +28,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionNew_triggered()
 {
     currentFile.clear();
-    ui->textEdit->setText(QString());
+    ui->plainTextEdit->setPlainText(QString());
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -46,7 +46,7 @@ void MainWindow::on_actionOpen_triggered()
     setWindowTitle(fileName);
     QTextStream in(&file);
     QString text = in.readAll();
-    ui->textEdit->setText(text);
+    ui->plainTextEdit->setPlainText(text);
     file.close();
 }
 
@@ -72,7 +72,7 @@ void MainWindow::on_actionSave_triggered()
 
     setWindowTitle(fileName);
     QTextStream out(&file);
-    QString text = ui->textEdit->toPlainText();
+    QString text = ui->plainTextEdit->toPlainText();
     out << text;
     file.close();
 }
@@ -91,7 +91,7 @@ void MainWindow::on_actionSave_as_triggered()
     currentFile = fileName;
     setWindowTitle(fileName);
     QTextStream out(&file);
-    QString text = ui->textEdit->toPlainText();
+    QString text = ui->plainTextEdit->toPlainText();
     out << text;
     file.close();
 }
@@ -107,7 +107,7 @@ void MainWindow::on_actionPrint_triggered()
         return;
 
 #endif // QT_CONFIG(printdialog)
-    ui->textEdit->print(&printDev);
+    ui->plainTextEdit->print(&printDev);
 #endif // QT_CONFIG(printer)
 }
 
@@ -119,32 +119,32 @@ void MainWindow::on_actionExit_2_triggered()
 void MainWindow::on_actionCopy_triggered()
 {
 #if QT_CONFIG(clipboard)
-    ui->textEdit->copy();
+    ui->plainTextEdit->copy();
 #endif
 }
 
 void MainWindow::on_actionPaste_triggered()
 {
 #if QT_CONFIG(clipboard)
-    ui->textEdit->paste();
+    ui->plainTextEdit->paste();
 #endif
 }
 
 void MainWindow::on_actionCut_triggered()
 {
 #if QT_CONFIG(clipboard)
-    ui->textEdit->cut();
+    ui->plainTextEdit->cut();
 #endif
 }
 
 void MainWindow::on_actionUndo_triggered()
 {
-    ui->textEdit->undo();
+    ui->plainTextEdit->undo();
 }
 
 void MainWindow::on_actionRedo_triggered()
 {
-    ui->textEdit->redo();
+    ui->plainTextEdit->redo();
 }
 
 void MainWindow::on_actionFont_triggered()
@@ -153,5 +153,5 @@ void MainWindow::on_actionFont_triggered()
     QFont font = QFontDialog::getFont(&fontSelected, this);
 
     if (fontSelected)
-        ui->textEdit->setFont(font);
+        ui->plainTextEdit->setFont(font);
 }

@@ -11,7 +11,8 @@
 #include <QFontDialog>
 #include <QFont>
 
-namespace Ui {
+namespace Ui 
+{
 class MainWindow;
 }
 

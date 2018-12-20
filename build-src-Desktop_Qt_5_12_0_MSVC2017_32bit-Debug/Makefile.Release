@@ -612,7 +612,41 @@ release\mainwindow.obj: ..\src\mainwindow.cpp ..\src\mainwindow.h \
 		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QFontDialog \
 		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qfontdialog.h \
 		C:\Qt\5.12.0\msvc2017\include\QtGui\QFont \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		C:\Qt\5.12.0\msvc2017\include\QtCore\QVariant \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QAction \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qaction.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QApplication \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qapplication.h \
+		C:\Qt\5.12.0\msvc2017\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.12.0\msvc2017\include\QtCore\qeventloop.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.12.0\msvc2017\include\QtGui\qguiapplication.h \
+		C:\Qt\5.12.0\msvc2017\include\QtGui\qinputmethod.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QMenu \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qmenu.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QMenuBar \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qmenubar.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QStatusBar \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qstatusbar.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QTextEdit \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qtextedit.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qframe.h \
+		C:\Qt\5.12.0\msvc2017\include\QtGui\qtextdocument.h \
+		C:\Qt\5.12.0\msvc2017\include\QtGui\qtextoption.h \
+		C:\Qt\5.12.0\msvc2017\include\QtGui\qtextcursor.h \
+		C:\Qt\5.12.0\msvc2017\include\QtGui\qtextformat.h \
+		C:\Qt\5.12.0\msvc2017\include\QtGui\qpen.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QToolBar \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qtoolbar.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QVBoxLayout \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qboxlayout.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qlayout.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qlayoutitem.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\qgridlayout.h \
+		C:\Qt\5.12.0\msvc2017\include\QtWidgets\QWidget
 
 release\qrc_resources.obj: release\qrc_resources.cpp 
 

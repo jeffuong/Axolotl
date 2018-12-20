@@ -15,8 +15,8 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -41,7 +41,7 @@ public:
     QWidget *centralWidget;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
-    QTextEdit *textEdit;
+    QPlainTextEdit *plainTextEdit;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -123,10 +123,10 @@ public:
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        textEdit = new QTextEdit(verticalLayoutWidget);
-        textEdit->setObjectName(QString::fromUtf8("textEdit"));
+        plainTextEdit = new QPlainTextEdit(verticalLayoutWidget);
+        plainTextEdit->setObjectName(QString::fromUtf8("plainTextEdit"));
 
-        verticalLayout->addWidget(textEdit);
+        verticalLayout->addWidget(plainTextEdit);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -151,12 +151,14 @@ public:
         menuFile->addAction(actionSave);
         menuFile->addAction(actionSave_as);
         menuFile->addAction(actionPrint);
+        menuFile->addSeparator();
         menuFile->addAction(actionExit_2);
         menuEdit->addAction(actionCopy);
         menuEdit->addAction(actionPaste);
         menuEdit->addAction(actionCut);
         menuEdit->addAction(actionUndo);
         menuEdit->addAction(actionRedo);
+        menuEdit->addSeparator();
         menuEdit->addAction(actionFont);
         mainToolBar->addAction(actionNew);
         mainToolBar->addAction(actionOpen);
@@ -188,10 +190,25 @@ public:
         actionPrint->setText(QApplication::translate("MainWindow", "Print", nullptr));
         actionExit_2->setText(QApplication::translate("MainWindow", "Exit", nullptr));
         actionCopy->setText(QApplication::translate("MainWindow", "Copy", nullptr));
+#ifndef QT_NO_SHORTCUT
+        actionCopy->setShortcut(QApplication::translate("MainWindow", "Ctrl+C", nullptr));
+#endif // QT_NO_SHORTCUT
         actionPaste->setText(QApplication::translate("MainWindow", "Paste", nullptr));
+#ifndef QT_NO_SHORTCUT
+        actionPaste->setShortcut(QApplication::translate("MainWindow", "Ctrl+P", nullptr));
+#endif // QT_NO_SHORTCUT
         actionCut->setText(QApplication::translate("MainWindow", "Cut", nullptr));
+#ifndef QT_NO_SHORTCUT
+        actionCut->setShortcut(QApplication::translate("MainWindow", "Ctrl+X", nullptr));
+#endif // QT_NO_SHORTCUT
         actionUndo->setText(QApplication::translate("MainWindow", "Undo", nullptr));
+#ifndef QT_NO_SHORTCUT
+        actionUndo->setShortcut(QApplication::translate("MainWindow", "Ctrl+Z", nullptr));
+#endif // QT_NO_SHORTCUT
         actionRedo->setText(QApplication::translate("MainWindow", "Redo", nullptr));
+#ifndef QT_NO_SHORTCUT
+        actionRedo->setShortcut(QApplication::translate("MainWindow", "Ctrl+Y", nullptr));
+#endif // QT_NO_SHORTCUT
         actionFont->setText(QApplication::translate("MainWindow", "Font", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", nullptr));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", nullptr));

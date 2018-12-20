@@ -12,5 +12,6 @@
         <file>imgs/opened.png</file>
         <file>imgs/paste.png</file>
         <file>imgs/font.png</file>
+        <file>imgs/testimage.png</file>
     </qresource>
 </RCC>
