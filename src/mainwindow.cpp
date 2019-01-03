@@ -1,3 +1,20 @@
+#include <QFile>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QMessageBox>
+#if defined(QT_PRINTSUPPORT_LIB)
+#include <QtPrintSupport/qtprintsupportglobal.h>
+#if QT_CONFIG(printer)
+#if QT_CONFIG(printdialog)
+#include <QPrintDialog>
+#endif // QT_CONFIG(printdialog)
+#include <QPrinter>
+#endif // QT_CONFIG(printer)
+#endif // QT_PRINTSUPPORT_LIB
+#include <QFont>
+#include <QFontDialog>
+
+#include "codeeditor.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -6,7 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setCentralWidget(ui->plainTextEdit);
+    //this->setCentralWidget(ui->plainTextEdit); // editor w/o number lines
+
+	CodeEditor *editor = new CodeEditor;
+	this->setCentralWidget(editor); // editor w/ number lines
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)

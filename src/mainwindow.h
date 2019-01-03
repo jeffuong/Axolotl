@@ -2,14 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QFile>
-#include <QFileDialog>
-#include <QTextStream>
-#include <QMessageBox>
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QFontDialog>
-#include <QFont>
 
 namespace Ui 
 {
