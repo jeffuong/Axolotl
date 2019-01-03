@@ -30,7 +30,6 @@ requires(qtConfig(fontdialog))
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
 		codeeditor.cpp
 
 HEADERS += \
