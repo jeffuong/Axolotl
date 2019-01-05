@@ -20,7 +20,7 @@ Generally we make a seperate directory and make sure cmake builds to this direct
 when build with cmake installed and Qt 5 installed
 ```
 mkdir build && cd build
-cmake .. -DCMAKE_PREFIX_PATH=C:/PATH/TO/YOUR/QT/COMPILER
+cmake .. -DCMAKE_PREFIX_PATH=C:/PATH/TO/YOUR/QT/COMPILER_BUILD
 make
 ```
 
