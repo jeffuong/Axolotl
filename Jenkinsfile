@@ -7,9 +7,11 @@ pipeline {
       }
       steps {
         checkout scm
-        bat "mkdir Notefad/buildMSVC-x64"
-        bat Notefad/buildMSVC-x64
-        bat "cmake .. -DCMAKE_PREFIX_PATH=C:/Qt/5.12.0/msvc2017_64 -G "Visual Studio 15 2017 Win64""
+        scripts {
+          bat "mkdir Notefad/buildMSVC-x64"
+          bat Notefad/buildMSVC-x64
+          bat "cmake .. -DCMAKE_PREFIX_PATH=C:/Qt/5.12.0/msvc2017_64 -G "Visual Studio 15 2017 Win64""
+        }
       }
     }
   
