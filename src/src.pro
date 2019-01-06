@@ -31,11 +31,11 @@ requires(qtConfig(fontdialog))
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    codeeditor.cpp
+		codeeditor.cpp
 
 HEADERS += \
         mainwindow.h \
-    codeeditor.h
+		codeeditor.h
 
 FORMS += \
         mainwindow.ui

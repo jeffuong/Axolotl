@@ -4,6 +4,11 @@
 #include <QPlainTextEdit>
 #include <QObject>
 
+namespace Ui
+{
+	class codeEditor;
+}
+
 class QPaintEvent;
 class QResizeEvent;
 class QSize;
@@ -31,7 +36,6 @@ private slots:
 private:
     QWidget *lineNumberArea;
 };
-
 
 class LineNumberArea : public QWidget
 {
