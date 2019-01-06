@@ -2,18 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QFile>
-#include <QFileDialog>
-#include <QTextStream>
-#include <QMessageBox>
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QFontDialog>
-#include <QFont>
+
+#include "codeeditor.h"
 
 namespace Ui 
 {
-class MainWindow;
+	class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -25,6 +19,7 @@ public:
     ~MainWindow();
 
 private slots:
+
     void on_actionNew_triggered();
 
     void on_actionOpen_triggered();
@@ -52,6 +47,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QString currentFile;
+	CodeEditor *editor = new CodeEditor;
 };
 
 #endif // MAINWINDOW_H
