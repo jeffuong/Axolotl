@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //this->setCentralWidget(ui->plainTextEdit); // normal editor, no numLines
-
 	this->setCentralWidget(editor); // editor w/ number lines but tools don't work
+	setWindowTitle("Notefad");
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
