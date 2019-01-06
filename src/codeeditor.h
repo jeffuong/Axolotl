@@ -37,7 +37,6 @@ private:
     QWidget *lineNumberArea;
 };
 
-
 class LineNumberArea : public QWidget
 {
 public:
