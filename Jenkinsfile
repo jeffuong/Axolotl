@@ -7,9 +7,9 @@ pipeline {
       }
       steps {
         checkout scm
-        bat 'echo %PATH%'
         dir('buildMSVC-x64') {
-          bat 'cmake .. -DCMAKE_PREFIX_PATH=C:/Qt/5.12.0/msvc2017_64 -G "Visual Studio 15 2017 Win64"'
+          //BUG Jenkins can't find cmake
+          bat 'C:/Program Files/CMake/bin/cmake .. -DCMAKE_PREFIX_PATH=C:/Qt/5.12.0/msvc2017_64 -G "Visual Studio 15 2017 Win64"'
         }
       }
     }
