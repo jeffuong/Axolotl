@@ -68,8 +68,7 @@ void TabBar::mousePressEvent(QMouseEvent *event)
     // check if clicked on tab/empty space
     if (tabIndex >= 0)
     {
-        if ((event->button()) & Qt::MouseButton::MiddleButton) == Qt::MouseButton::MiddleButton &&
-                qApp->settings()->
+
     }
 }
 
