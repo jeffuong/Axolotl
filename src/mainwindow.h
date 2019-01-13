@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "codeeditor.h"
+#include "tabwidget.h"
 
 namespace Ui 
 {
@@ -16,6 +17,12 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+
+    QString filePath() const;
+
+	TabWidget* tabWidget() const;
+    CodeEditor *editor = new CodeEditor;
+
     ~MainWindow();
 
 private slots:
@@ -47,7 +54,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QString currentFile;
-	CodeEditor *editor = new CodeEditor;
+	TabWidget* tabEditors;
 };
 
 #endif // MAINWINDOW_H

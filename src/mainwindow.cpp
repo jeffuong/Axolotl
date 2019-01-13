@@ -1,3 +1,6 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
@@ -14,9 +17,7 @@
 #include <QFont>
 #include <QFontDialog>
 
-#include "codeeditor.h"
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include <QtWidgets>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,8 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //this->setCentralWidget(ui->plainTextEdit); // normal editor, no numLines
-	this->setCentralWidget(editor); // editor w/ number lines but tools don't work
+    this->setCentralWidget(editor); // editor w/ number lines
 	setWindowTitle("Notefad");
+	
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
@@ -175,3 +177,12 @@ void MainWindow::on_actionFont_triggered()
         editor->setFont(font);
 }
 
+QString MainWindow::filePath() const
+{
+    return currentFile;
+}
+
+TabWidget* MainWindow::tabWidget() const 
+{
+	return tabEditors;
+}

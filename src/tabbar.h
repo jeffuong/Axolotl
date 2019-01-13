@@ -12,7 +12,7 @@ public:
 
     void setTabControl(int index);
 
-    ~TabBar();
+    virtual ~TabBar() = default;
 
 private slots:
     void closeTabButton();
