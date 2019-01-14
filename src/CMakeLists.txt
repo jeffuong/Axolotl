@@ -11,9 +11,7 @@ set(main_src
   "mainwindow.cpp"
   "mainwindow.ui" 
   "codeeditor.cpp"
-  "filetab.cpp"
-  "tabbar.cpp"
-  "tabwidget.cpp"
+  "files.cpp"
   "resources.qrc"
 )
 

@@ -16,18 +16,51 @@
 #endif // QT_PRINTSUPPORT_LIB
 #include <QFont>
 #include <QFontDialog>
-
+#include <QTabWidget>
 #include <QtWidgets>
+#include <QHBoxLayout>
+
+CodeEditor *editor = nullptr;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    currentFile = "";
+
     ui->setupUi(this);
-    //this->setCentralWidget(ui->plainTextEdit); // normal editor, no numLines
-    this->setCentralWidget(editor); // editor w/ number lines
-	setWindowTitle("Notefad");
-	
+    //this->setCentralWidget(editor);
+
+	// trying to remove the first 2 tabs without breaking compilation
+	//ui->tabWidget->setCurrentIndex(0);
+	//ui->tabWidget->removeTab(0);
+	//ui->tabWidget->removeTab(0);
+
+	// setting layout
+	QHBoxLayout *layout = new QHBoxLayout;
+	layout->addWidget(ui->tabWidget);
+	centralWidget()->setLayout(layout);
+
+	int windowWidth = settings.value("windowWidth", 500).toInt();
+	int windowHeight = settings.value("windowHeight", 500).toInt();
+	MainWindow::resize(windowWidth, windowHeight);
+
+	// setting up initial tab
+    newTab();
+    connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+    editor->setFocus();
+    highlightCurrentLine();
+
+    currentDir = files.getHomeDir();
+
+    QStringList openFiles;
+    openFiles = settings.value("openFilesList").toStringList();
+
+    if (!openFiles.isEmpty())
+    {
+        for (int i = 0; i < openFiles.length(); i++)
+            open(openFiles.at(i));
+    }
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
@@ -46,75 +79,147 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+// HIGHLIGHTER
+
+void MainWindow::highlightCurrentLine()
+{
+    if (editor != nullptr)
+    {
+        QList<QTextEdit::ExtraSelection> extraSelections;
+        QTextEdit::ExtraSelection selection;
+
+        QColor lineColor = QColor(Qt::cyan).lighter(160);
+
+        selection.format.setBackground(lineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        selection.cursor = editor->textCursor();
+        selection.cursor.clearSelection();
+        extraSelections.append(selection);
+
+        editor->setExtraSelections(extraSelections);
+    }
+}
+
+// TABS
+
+void MainWindow::newTab()
+{
+	if (ui->tabWidget->count() < 30)
+	{
+        ui->tabWidget->addTab(new CodeEditor, 
+		    QString("New File %0").arg(ui->tabWidget->count() + 1));
+		ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+		ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), "");
+		currentFile = "";
+
+		editor->setWordWrapMode(QTextOption::NoWrap);
+	}
+}
+
+void MainWindow::on_tabWidget_tabCloseRequested(int index)
+{
+    if (ui->tabWidget->count() < 2)
+        newTab();
+
+    ui->tabWidget->setCurrentIndex(index);
+
+    // sets new current tab
+    if (index > 0)
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(index - 1));
+    else
+        ui->tabWidget->setCurrentWidget(ui->tabWidget->widget(index + 1));
+
+    delete ui->tabWidget->widget(index);
+    currentFile = editor->getFilePath();
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    editor = qobject_cast<CodeEditor*>(ui->tabWidget->widget(index));
+
+    connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+
+    currentFile = editor->getFilePath();
+
+    highlightCurrentLine();
+}
+
+// FILES
+
+QString MainWindow::getFileType(QString file)
+{
+    QStringList dotSplit = file.split(".");
+
+    if (dotSplit.length() > 1)
+        return dotSplit.last();
+    else
+        return "";
+}
+
+void MainWindow::open(QString file)
+{
+    if (file != "")
+    {
+        if (currentFile != "" || editor->toPlainText() != "")
+            newTab();
+
+        currentFile = file;
+        QString fileType = getFileType(file);
+        editor->setPlainText(files.read(currentFile));
+        editor->setFilePath(currentFile);
+        editor->setFileType(fileType);
+
+        if (currentFile.length() >= 21)
+            ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), currentFile.right(21));
+        else
+            ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), currentFile);
+
+        ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
+        currentDir = files.getDir(currentFile);
+    }
+}
+
+void MainWindow::save()
+{
+    if (currentFile == "")
+        on_actionSave_as_triggered();
+    else
+        files.write(currentFile, editor->toPlainText());
+}
+
+// TOOLBAR & MISC
+
 void MainWindow::on_actionNew_triggered()
 {
-    currentFile.clear();
-	editor->setPlainText(QString());
+    MainWindow::newTab();
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
-    QFile file(fileName);
-    currentFile = fileName;
-
-    if(!file.open(QIODevice::ReadOnly | QFile::Text))
-    {
-        QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
-        return;
-    }
-
-    setWindowTitle(fileName);
-    QTextStream in(&file);
-    QString text = in.readAll();
-    editor->setPlainText(text);
-    file.close();
+    QString file = QFileDialog::getOpenFileName(this, tr("Open File"), currentDir, tr("All (*)"));
+    open(file);
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-    QString fileName;
-
-    // if there is no filename, makes one
-    if (currentFile.isEmpty())
-    {
-        fileName = QFileDialog::getSaveFileName(this, "Save");
-        currentFile = fileName;
-    }
-    else
-        fileName = currentFile;
-
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QFile::Text))
-    {
-        QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
-        return;
-    }
-
-    setWindowTitle(fileName);
-    QTextStream out(&file);
-    QString text = editor->toPlainText();
-    out << text;
-    file.close();
+    MainWindow::save();
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Save as");
-    QFile file(fileName);
+    currentFile = QFileDialog::getSaveFileName(this, tr("Save as"), currentDir, tr("ALL (*)"));
+    QString fileType = getFileType(currentFile);
 
-    if (!file.open(QFile::WriteOnly | QFile::Text))
+    if (currentFile != "")
     {
-        QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
-        return;
-    }
+        files.write(currentFile, editor->toPlainText());
 
-    currentFile = fileName;
-    setWindowTitle(fileName);
-    QTextStream out(&file);
-    QString text = editor->toPlainText();
-    out << text;
-    file.close();
+        editor->setFilePath(currentFile);
+        editor->setFileType(fileType);
+
+        ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), currentFile.right(21));
+        ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
+    }
 }
 
 void MainWindow::on_actionPrint_triggered()
@@ -177,12 +282,7 @@ void MainWindow::on_actionFont_triggered()
         editor->setFont(font);
 }
 
-QString MainWindow::filePath() const
+void MainWindow::openWith(QString file)
 {
-    return currentFile;
-}
-
-TabWidget* MainWindow::tabWidget() const 
-{
-	return tabEditors;
+	open(file);
 }

@@ -32,16 +32,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
 		codeeditor.cpp \
-    filetab.cpp \
-    tabwidget.cpp \
-    tabbar.cpp
+    files.cpp
 
 HEADERS += \
         mainwindow.h \
 		codeeditor.h \
-    filetab.h \
-    tabwidget.h \
-    tabbar.h
+    files.h
 
 FORMS += \
         mainwindow.ui

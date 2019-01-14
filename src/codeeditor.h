@@ -20,7 +20,12 @@ class CodeEditor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    CodeEditor(QWidget *parent = nullptr);
+    CodeEditor(QWidget *parent = 0);
+
+    QString getFilePath();
+    QString getFileType();
+    void setFilePath(QString newFilePath);
+    void setFileType(QString newFileType);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -30,11 +35,13 @@ protected:
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
-    void highlightCurrentLine();
+    //void highlightCurrentLine();
     void updateLineNumberArea(const QRect &, int);
 
 private:
     QWidget *lineNumberArea;
+    QString filePath;
+    QString fileType;
 };
 
 class LineNumberArea : public QWidget
