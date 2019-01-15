@@ -31,17 +31,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     //this->setCentralWidget(editor);
 
-	// trying to remove the first 2 tabs without breaking compilation
-	//ui->tabWidget->setCurrentIndex(0);
-	//ui->tabWidget->removeTab(0);
-	//ui->tabWidget->removeTab(0);
-
 	// setting layout
 	QHBoxLayout *layout = new QHBoxLayout;
 	layout->addWidget(ui->tabWidget);
 	centralWidget()->setLayout(layout);
+	
 
-	int windowWidth = settings.value("windowWidth", 500).toInt();
+	int windowWidth = settings.value("windowWidth", 700).toInt();
 	int windowHeight = settings.value("windowHeight", 500).toInt();
 	MainWindow::resize(windowWidth, windowHeight);
 
@@ -52,15 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
     highlightCurrentLine();
 
     currentDir = files.getHomeDir();
-
-    QStringList openFiles;
-    openFiles = settings.value("openFilesList").toStringList();
-
-    if (!openFiles.isEmpty())
-    {
-        for (int i = 0; i < openFiles.length(); i++)
-            open(openFiles.at(i));
-    }
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
@@ -76,10 +63,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+	delete ui;
 }
 
-// HIGHLIGHTER
+/*
+	LINE HIGHLIGHTER
+*/
 
 void MainWindow::highlightCurrentLine()
 {
@@ -100,12 +89,16 @@ void MainWindow::highlightCurrentLine()
     }
 }
 
-// TABS
+/*
+	TABS
+*/
 
 void MainWindow::newTab()
 {
-	if (ui->tabWidget->count() < 30)
+	if (ui->tabWidget->count() < 100)
 	{
+		/* this names tabs as "New File (#)" based on position  
+		   rather than number of new files made, fix later */
         ui->tabWidget->addTab(new CodeEditor, 
 		    QString("New File %0").arg(ui->tabWidget->count() + 1));
 		ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
@@ -144,7 +137,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     highlightCurrentLine();
 }
 
-// FILES
+/*
+	FILES
+*/
 
 QString MainWindow::getFileType(QString file)
 {
@@ -187,7 +182,9 @@ void MainWindow::save()
         files.write(currentFile, editor->toPlainText());
 }
 
-// TOOLBAR & MISC
+/*
+	MENU ACTIONS & MISC.
+*/
 
 void MainWindow::on_actionNew_triggered()
 {
