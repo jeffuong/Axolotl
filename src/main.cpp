@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
 	a.setWindowIcon(QIcon(":/imgs/imgs/testimage.png"));
+	w.setWindowTitle("Notefad");
 
     w.show();
 

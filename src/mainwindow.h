@@ -2,8 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
 
 #include "codeeditor.h"
+#include "files.h"
 
 namespace Ui 
 {
@@ -16,9 +18,20 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    void openWith(QString);
     ~MainWindow();
 
 private slots:
+
+    QString getFileType(QString file);
+
+    void newTab();
+
+    void open(QString file);
+
+    void save();
+
+    void highlightCurrentLine();
 
     void on_actionNew_triggered();
 
@@ -44,10 +57,16 @@ private slots:
 
     void on_actionFont_triggered();
 
+    void on_tabWidget_tabCloseRequested(int index);
+
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     QString currentFile;
-	CodeEditor *editor = new CodeEditor;
+    Files files;
+    QSettings settings;
+    QString currentDir;
 };
 
 #endif // MAINWINDOW_H

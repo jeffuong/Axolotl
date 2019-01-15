@@ -1,17 +1,37 @@
-#include <QtWidgets>
-
 #include "codeeditor.h"
+
+#include <QtWidgets>
 
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
+    filePath = "";
+    fileType = "";
+
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 
     updateLineNumberAreaWidth(0);
-    highlightCurrentLine();
+}
+
+QString CodeEditor::getFilePath()
+{
+    return filePath;
+}
+
+QString CodeEditor::getFileType()
+{
+    return fileType;
+}
+
+void CodeEditor::setFilePath(QString newFilePath)
+{
+    filePath = newFilePath;
+}
+void CodeEditor::setFileType(QString newFileType)
+{
+    fileType = newFileType;
 }
 
 int CodeEditor::lineNumberAreaWidth()
@@ -54,31 +74,10 @@ void CodeEditor::resizeEvent(QResizeEvent *e)
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
-void CodeEditor::highlightCurrentLine()
-{
-    QList<QTextEdit::ExtraSelection> extraSelections;
-
-    if (!isReadOnly())
-    {
-        QTextEdit::ExtraSelection selection;
-
-        QColor lineColor = QColor(Qt::cyan).lighter(160);
-
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = textCursor();
-        selection.cursor.clearSelection();
-        extraSelections.append(selection);
-    }
-
-    setExtraSelections(extraSelections);
-}
-
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(lineNumberArea);
     painter.fillRect(event->rect(), Qt::lightGray);
-
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();

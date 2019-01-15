@@ -7,10 +7,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(main_src 
+  "codeeditor.cpp"
+  "files.cpp"
   "main.cpp"
   "mainwindow.cpp"
   "mainwindow.ui" 
-  "codeeditor.cpp"
   "resources.qrc"
 )
 
