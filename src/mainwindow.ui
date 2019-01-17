@@ -159,7 +159,7 @@
   <action name="actionPrint">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/imgs/printer (1).png</normaloff>:/imgs/imgs/printer (1).png</iconset>
+     <normaloff>:/imgs/imgs/printer.png</normaloff>:/imgs/imgs/printer.png</iconset>
    </property>
    <property name="text">
     <string>Print</string>
@@ -204,7 +204,7 @@
   <action name="actionCut">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/imgs/imgs/scissors (1).png</normaloff>:/imgs/imgs/scissors (1).png</iconset>
+     <normaloff>:/imgs/imgs/scissors.png</normaloff>:/imgs/imgs/scissors.png</iconset>
    </property>
    <property name="text">
     <string>Cut</string>

@@ -35,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	QHBoxLayout *layout = new QHBoxLayout;
 	layout->addWidget(ui->tabWidget);
 	centralWidget()->setLayout(layout);
-	
 
 	int windowWidth = settings.value("windowWidth", 700).toInt();
 	int windowHeight = settings.value("windowHeight", 500).toInt();
