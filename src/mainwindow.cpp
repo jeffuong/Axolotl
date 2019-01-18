@@ -92,10 +92,6 @@ void MainWindow::highlightCurrentLine()
 void MainWindow::setupSyntaxHighlighter()
 {
     syntaxHighlighter = new SyntaxHighlighter(editor->document());
-
-	QFile file("mainwindow.h");
-	if (file.open(QFile::ReadOnly | QFile::Text))
-		editor->setPlainText(file.readAll());
 }
 
 /*
