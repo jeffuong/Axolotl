@@ -3,9 +3,11 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QTabBar>
 
 #include "codeeditor.h"
 #include "files.h"
+#include "syntaxhighlighter.h"
 
 namespace Ui 
 {
@@ -62,11 +64,15 @@ private slots:
     void on_tabWidget_currentChanged(int index);
 
 private:
+    void setupSyntaxHighlighter();
+
     Ui::MainWindow *ui;
     QString currentFile;
     Files files;
     QSettings settings;
     QString currentDir;
+    SyntaxHighlighter *syntaxHighlighter;
+	//QTabBar *tabBar; // can turn tabs to this later on
 };
 
 #endif // MAINWINDOW_H

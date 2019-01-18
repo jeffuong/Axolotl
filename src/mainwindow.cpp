@@ -43,7 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	// setting up initial tab
     newTab();
     connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-    editor->setFocus();
+	setupSyntaxHighlighter();
+	editor->setFocus();
     highlightCurrentLine();
 
     currentDir = files.getHomeDir();
@@ -85,7 +86,20 @@ void MainWindow::highlightCurrentLine()
         extraSelections.append(selection);
 
         editor->setExtraSelections(extraSelections);
+		setupSyntaxHighlighter();
     }
+}
+
+void MainWindow::setupSyntaxHighlighter()
+{
+   // if (editor != nullptr)
+   // {
+        syntaxHighlighter = new SyntaxHighlighter(editor->document());
+
+		QFile file("mainwindow.h");
+		if (file.open(QFile::ReadOnly | QFile::Text))
+			editor->setPlainText(file.readAll());
+   // }
 }
 
 /*
