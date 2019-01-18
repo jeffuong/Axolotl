@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	// setting up initial tab
     newTab();
     connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-	setupSyntaxHighlighter();
 	editor->setFocus();
     highlightCurrentLine();
 
@@ -67,7 +66,7 @@ MainWindow::~MainWindow()
 }
 
 /*
-	LINE HIGHLIGHTER
+	LINE & SYNTAX HIGHLIGHTING
 */
 
 void MainWindow::highlightCurrentLine()
@@ -92,14 +91,11 @@ void MainWindow::highlightCurrentLine()
 
 void MainWindow::setupSyntaxHighlighter()
 {
-   // if (editor != nullptr)
-   // {
-        syntaxHighlighter = new SyntaxHighlighter(editor->document());
+    syntaxHighlighter = new SyntaxHighlighter(editor->document());
 
-		QFile file("mainwindow.h");
-		if (file.open(QFile::ReadOnly | QFile::Text))
-			editor->setPlainText(file.readAll());
-   // }
+	QFile file("mainwindow.h");
+	if (file.open(QFile::ReadOnly | QFile::Text))
+		editor->setPlainText(file.readAll());
 }
 
 /*
