@@ -41,12 +41,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	MainWindow::resize(windowWidth, windowHeight);
 
 	// setting up initial tab
-    newTab();
-    connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-    editor->setFocus();
-    highlightCurrentLine();
+  newTab();
+  connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+	editor->setFocus();
+  highlightCurrentLine();
 
-    currentDir = files.getHomeDir();
+  currentDir = files.getHomeDir();
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
@@ -66,7 +66,7 @@ MainWindow::~MainWindow()
 }
 
 /*
-	LINE HIGHLIGHTER
+	LINE & SYNTAX HIGHLIGHTING
 */
 
 void MainWindow::highlightCurrentLine()
@@ -85,7 +85,13 @@ void MainWindow::highlightCurrentLine()
         extraSelections.append(selection);
 
         editor->setExtraSelections(extraSelections);
+		    setupSyntaxHighlighter();
     }
+}
+
+void MainWindow::setupSyntaxHighlighter()
+{
+    syntaxHighlighter = new SyntaxHighlighter(editor->document());
 }
 
 /*
@@ -98,8 +104,8 @@ void MainWindow::newTab()
 	{
 		/* this names tabs as "New File (#)" based on position  
 		   rather than number of new files made, fix later */
-        ui->tabWidget->addTab(new CodeEditor, 
-		    QString("New File %0").arg(ui->tabWidget->count() + 1));
+    ui->tabWidget->addTab(new CodeEditor, 
+		QString("New File %0").arg(ui->tabWidget->count() + 1));
 		ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
 		ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), "");
 		currentFile = "";

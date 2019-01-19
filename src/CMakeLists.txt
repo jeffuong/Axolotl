@@ -12,6 +12,7 @@ set(main_src
   "main.cpp"
   "mainwindow.cpp"
   "mainwindow.ui" 
+  "syntaxhighlighter.cpp"
   "resources.qrc"
 )
 
