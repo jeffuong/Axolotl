@@ -49,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     currentDir = files.getHomeDir();
 
+	// Setting Up FindWordWindow and Set it connection
+	findWindow = new FindWordWindow(this);
+	connect(this, SIGNAL(sendText(QString)), findWindow, SLOT(setText(QString)));
+
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
     ui->actionPrint->setEnabled(false);
@@ -282,4 +286,48 @@ void MainWindow::on_actionFont_triggered()
 void MainWindow::openWith(QString file)
 {
 	open(file);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* keyInputs)
+{
+
+	if (keyInputs->matches(QKeySequence::Find))
+		findWindow->show();
+
+}
+
+void MainWindow::findButtonPressed()
+{
+
+
+	emit sendText(editor->toPlainText());
+	/*qDebug() << m_wordPos.size();
+	if (m_wordPos.size() > 0)
+	qDebug() << m_wordPos[0];*/
+}
+
+void MainWindow::setWordPos(const std::vector<unsigned int> pos)
+{
+	m_wordPos = pos;
+}
+
+void MainWindow::highLightWord(const QString word)
+{
+	QList<QTextEdit::ExtraSelection> extraSelections;
+	QColor lineColor = QColor(Qt::yellow).lighter(160);
+	if (editor != nullptr)
+	{
+		editor->moveCursor(QTextCursor::Start);
+		while (editor->find(word))
+		{
+			QTextEdit::ExtraSelection selection;
+			selection.format.setBackground(lineColor);
+			selection.cursor = editor->textCursor();
+			extraSelections.append(selection);
+		}
+
+	}
+
+	editor->setExtraSelections(extraSelections);
+
 }

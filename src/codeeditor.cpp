@@ -13,6 +13,9 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
 
     updateLineNumberAreaWidth(0);
+
+	// fix tab key sizes				Font Width
+	this->setTabStopWidth(3 * (QFontMetrics(this->currentCharFormat().font()).averageCharWidth()) - 3);
 }
 
 QString CodeEditor::getFilePath()

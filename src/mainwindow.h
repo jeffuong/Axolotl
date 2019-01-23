@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSettings>
 
+#include "findwordwindow.h"
 #include "codeeditor.h"
 #include "files.h"
 
@@ -20,6 +21,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     void openWith(QString);
     ~MainWindow();
+
+public slots:
+	void findButtonPressed();
+	void setWordPos(const std::vector<unsigned int>);
+	void highLightWord(const QString);
 
 private slots:
 
@@ -61,12 +67,20 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+
+signals:
+	void sendText(const QString);
+
 private:
     Ui::MainWindow *ui;
     QString currentFile;
     Files files;
     QSettings settings;
     QString currentDir;
+
+	FindWordWindow *findWindow;
+	std::vector<unsigned int> m_wordPos;
+	void keyPressEvent(QKeyEvent*);
 };
 
 #endif // MAINWINDOW_H
