@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QTabBar>
 
+#include "findwordwindow.h"
 #include "codeeditor.h"
 #include "files.h"
 #include "syntaxhighlighter.h"
@@ -22,6 +23,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     void openWith(QString);
     ~MainWindow();
+
+public slots:
+	void findButtonPressed();
+	void setWordPos(const std::vector<unsigned int>);
+	void highLightWord(const QString);
 
 private slots:
 
@@ -63,6 +69,10 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+
+signals:
+	void sendText(const QString);
+
 private:
     void setupSyntaxHighlighter();
 
@@ -71,8 +81,12 @@ private:
     Files files;
     QSettings settings;
     QString currentDir;
+
+	FindWordWindow *findWindow;
+	std::vector<unsigned int> m_wordPos;
+	void keyPressEvent(QKeyEvent*);
     SyntaxHighlighter *syntaxHighlighter;
-	//QTabBar *tabBar; // can turn tabs to this later on
+	//QTabBar *tabBar; // can turn tabs to thi s later on
 };
 
 #endif // MAINWINDOW_H
