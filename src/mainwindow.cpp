@@ -35,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	QHBoxLayout *layout = new QHBoxLayout;
 	layout->addWidget(ui->tabWidget);
 	centralWidget()->setLayout(layout);
-	
 
 	int windowWidth = settings.value("windowWidth", 700).toInt();
 	int windowHeight = settings.value("windowHeight", 500).toInt();
@@ -44,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	// setting up initial tab
     newTab();
     connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-    editor->setFocus();
+	editor->setFocus();
     highlightCurrentLine();
 
     currentDir = files.getHomeDir();
@@ -71,7 +70,7 @@ MainWindow::~MainWindow()
 }
 
 /*
-	LINE HIGHLIGHTER
+	LINE & SYNTAX HIGHLIGHTING
 */
 
 void MainWindow::highlightCurrentLine()
@@ -90,7 +89,13 @@ void MainWindow::highlightCurrentLine()
         extraSelections.append(selection);
 
         editor->setExtraSelections(extraSelections);
+		setupSyntaxHighlighter();
     }
+}
+
+void MainWindow::setupSyntaxHighlighter()
+{
+    syntaxHighlighter = new SyntaxHighlighter(editor->document());
 }
 
 /*

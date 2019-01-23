@@ -3,10 +3,12 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QTabBar>
 
 #include "findwordwindow.h"
 #include "codeeditor.h"
 #include "files.h"
+#include "syntaxhighlighter.h"
 
 namespace Ui 
 {
@@ -72,6 +74,8 @@ signals:
 	void sendText(const QString);
 
 private:
+    void setupSyntaxHighlighter();
+
     Ui::MainWindow *ui;
     QString currentFile;
     Files files;
@@ -81,6 +85,8 @@ private:
 	FindWordWindow *findWindow;
 	std::vector<unsigned int> m_wordPos;
 	void keyPressEvent(QKeyEvent*);
+    SyntaxHighlighter *syntaxHighlighter;
+	//QTabBar *tabBar; // can turn tabs to thi s later on
 };
 
 #endif // MAINWINDOW_H

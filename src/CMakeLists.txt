@@ -14,6 +14,7 @@ set(main_src
   "mainwindow.ui" 
   "findwordwindow.cpp"
   "findwordwindow.ui"
+  "syntaxhighlighter.cpp"
   "resources.qrc"
 )
 

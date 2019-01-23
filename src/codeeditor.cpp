@@ -16,6 +16,9 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 
 	// fix tab key sizes				Font Width
 	this->setTabStopWidth(3 * (QFontMetrics(this->currentCharFormat().font()).averageCharWidth()) - 3);
+	// fix tab key sizes
+	int fontWidth = QFontMetrics(this->currentCharFormat().font()).averageCharWidth();
+	this->setTabStopWidth(3 * fontWidth);
 }
 
 QString CodeEditor::getFilePath()
