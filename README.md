@@ -1,5 +1,10 @@
-# Notefad Project
-This repository is a C++ project trying to recreate sublime/visual studio code using the Qt 5 library.
+# Axolotl
+![Axolotl](https://github.com/jeffuong/Notefad/blob/master/src/imgs/readmeimg.png)
+This repository is a C++ project trying to recreate a cross-platform text editor similar to sublime/visual studio code using the Qt 5 library.
+
+The Axolotl icon was provided by [kisspng](https://www.kisspng.com) and edited through Gimp.
+
+![Demo](https://user-images.githubusercontent.com/25240780/52088241-381ca400-2560-11e9-9e62-98f9d2b570f1.gif)
 
 ## Getting Started
 
