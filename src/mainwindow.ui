@@ -81,9 +81,22 @@
      <string>Settings</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuPlugins">
+    <property name="title">
+     <string>Plugins</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout_Axoltl"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuPlugins"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -244,6 +257,11 @@
    </property>
    <property name="text">
     <string>Font</string>
+   </property>
+  </action>
+  <action name="actionAbout_Axoltl">
+   <property name="text">
+    <string>About Axoltl</string>
    </property>
   </action>
  </widget>
