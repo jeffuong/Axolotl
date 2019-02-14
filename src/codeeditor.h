@@ -29,6 +29,7 @@ public:
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
+	int getBCount();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -41,6 +42,7 @@ private:
     QWidget *lineNumberArea;
     QString filePath;
     QString fileType;
+	int bCount;
 };
 
 class LineNumberArea : public QWidget

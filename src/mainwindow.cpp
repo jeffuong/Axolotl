@@ -144,6 +144,10 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     currentFile = editor->getFilePath();
 
     highlightCurrentLine();
+
+	QString numberLines = QString::number(editor->getBCount());
+	//QString currentFileType = (editor->getFileType);
+	ui->statusBar->showMessage("Lines: " + numberLines);
 }
 
 /*

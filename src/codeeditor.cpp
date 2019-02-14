@@ -102,4 +102,11 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         bottom = top + (int) blockBoundingRect(block).height();
         ++blockNumber;
     }
+
+	bCount = blockNumber;
+}
+
+int CodeEditor::getBCount()
+{
+	return bCount;
 }
