@@ -18,6 +18,6 @@ set(main_src
   "resources.qrc"
 )
 
-add_executable(Notefad ${main_src})
-target_link_libraries(Notefad Qt5::Widgets)
-target_link_libraries(Notefad Qt5::PrintSupport)
+add_executable(Axolotl ${main_src})
+target_link_libraries(Axolotl Qt5::Widgets)
+target_link_libraries(Axolotl Qt5::PrintSupport)
