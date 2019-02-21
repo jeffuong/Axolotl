@@ -1,5 +1,5 @@
 # Axolotl
-<img align="left" src="https://github.com/jeffuong/Notefad/blob/master/src/imgs/readmeimg.png" alt="Axolotl" height="110px"/>
+<img align="left" src="https://github.com/jeffuong/Notefad/blob/master/src/imgs/readmeimg.png" alt="Axolotl" height="130px"/>
 This repository is a C++ project trying to recreate a cross-platform text editor similar to Sublime/Visual Studio Code using the Qt 5 library.
 
 The Axolotl icon was provided by [Kisspng](https://www.kisspng.com) and edited through Gimp.
