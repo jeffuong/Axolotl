@@ -21,3 +21,18 @@ set(main_src
 add_executable(Axolotl ${main_src})
 target_link_libraries(Axolotl Qt5::Widgets)
 target_link_libraries(Axolotl Qt5::PrintSupport)
+
+# Copying Qt binaries
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+  # Debug
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Cored.dll         ${Axolotl_BINARY_DIR}/src/Debug
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Guid.dll          ${Axolotl_BINARY_DIR}/src/Debug
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Widgetsd.dll      ${Axolotl_BINARY_DIR}/src/Debug
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5PrintSupportd.dll ${Axolotl_BINARY_DIR}/src/Debug
+
+  # Release
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Core.dll         ${Axolotl_BINARY_DIR}/src/Release
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Gui.dll          ${Axolotl_BINARY_DIR}/src/Release
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Widgets.dll      ${Axolotl_BINARY_DIR}/src/Release
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5PrintSupport.dll ${Axolotl_BINARY_DIR}/src/Release
+)
