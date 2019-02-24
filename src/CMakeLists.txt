@@ -22,7 +22,8 @@ add_executable(Axolotl ${main_src})
 target_link_libraries(Axolotl Qt5::Widgets)
 target_link_libraries(Axolotl Qt5::PrintSupport)
 
-# Copying Qt binaries
+# Copying Qt binaries for Windows
+if(WIN32)
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
   # Debug
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Cored.dll         ${Axolotl_BINARY_DIR}/src/Debug
@@ -36,3 +37,4 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5Widgets.dll      ${Axolotl_BINARY_DIR}/src/Release
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5PrintSupport.dll ${Axolotl_BINARY_DIR}/src/Release
 )
+endif(WIN32)
