@@ -25,9 +25,9 @@ public:
     ~MainWindow();
 
 public slots:
-	void findButtonPressed();
-	void setWordPos(const std::vector<unsigned int>);
+	void buttonPressed(const QString);
 	void highLightWord(const QString);
+	void replaceWord(const QString, const QString);
 
 private slots:
 
@@ -69,6 +69,8 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+	void npHighlightWord(const QString);
+
 
 signals:
 	void sendText(const QString);
@@ -81,12 +83,17 @@ private:
     Files files;
     QSettings settings;
     QString currentDir;
+	SyntaxHighlighter *syntaxHighlighter;
+	//QTabBar *tabBar; // can turn tabs to thi s later on
 
 	FindWordWindow *findWindow;
-	std::vector<unsigned int> m_wordPos;
+	std::vector<unsigned int> m_wordPosList;
+	int m_wordLengt;
+	int m_wordPos;
+
 	void keyPressEvent(QKeyEvent*);
-    SyntaxHighlighter *syntaxHighlighter;
-	//QTabBar *tabBar; // can turn tabs to thi s later on
+	void highLightWord(const int, const int);
+	void clearAllFind();
 };
 
 #endif // MAINWINDOW_H

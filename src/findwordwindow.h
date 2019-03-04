@@ -27,12 +27,15 @@ public slots:
 
 private slots:
 	void findWordOnRelease();
+	void replaceWordOnRelease();
+	void nextOnRelease();
+	void prevOnRelease();
 	void exitOnPress();
 
 signals:
-	void sendWordPos(const std::vector<unsigned int>);
 	void sendFindWord(const QString);
-	void sendButtonPressTrigger();
+	void sendButtonPressTrigger(const QString);
+	void sendToReplace(const QString, const QString);
 
 private:
     Ui::FindWordWindow *ui;

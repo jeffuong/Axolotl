@@ -13,58 +13,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPlainTextEdit" name="wordToFind">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>30</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="plainText">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="findWordButton">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>30</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Find</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>80</y>
-     <width>101</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Word Found At: </string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="wordPosLabel">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>80</y>
-     <width>271</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
@@ -78,11 +26,122 @@
     <string>Exit</string>
    </property>
   </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>0</y>
+     <width>411</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="findTab">
+    <attribute name="title">
+     <string>Find Word</string>
+    </attribute>
+    <widget class="QPushButton" name="findWordButton">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>120</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Find</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="replaceTab">
+    <attribute name="title">
+     <string>Replace Word</string>
+    </attribute>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Replace Word With:</string>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="replaceWordText">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>261</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="replaceButton">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>110</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Replace</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="replaceAllButton">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>150</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Replace All</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Find Word:</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="wordToFind">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="plainText">
+    <string/>
+   </property>
+  </widget>
   <widget class="QPushButton" name="nextButton">
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>70</y>
+     <y>60</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -95,7 +154,7 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>110</y>
+     <y>100</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -104,24 +163,13 @@
     <string>Previous</string>
    </property>
   </widget>
+  <zorder>tabWidget</zorder>
+  <zorder>exitButton</zorder>
+  <zorder>label</zorder>
+  <zorder>wordToFind</zorder>
+  <zorder>nextButton</zorder>
+  <zorder>previousButton</zorder>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>findWordButton</sender>
-   <signal>released()</signal>
-   <receiver>label</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>330</x>
-     <y>33</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>101</x>
-     <y>93</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

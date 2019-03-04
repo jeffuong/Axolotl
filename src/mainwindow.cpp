@@ -301,38 +301,114 @@ void MainWindow::keyPressEvent(QKeyEvent* keyInputs)
 
 }
 
-void MainWindow::findButtonPressed()
+void MainWindow::buttonPressed(const QString button)
 {
 
 
-	emit sendText(editor->toPlainText());
-	/*qDebug() << m_wordPos.size();
-	if (m_wordPos.size() > 0)
-	qDebug() << m_wordPos[0];*/
+	if (button == "next" || button == "prev")
+	{
+		if (!m_wordPosList.empty())
+			npHighlightWord(button);
+	}
+	else if (button == "exit")
+		clearAllFind();
+
 }
 
-void MainWindow::setWordPos(const std::vector<unsigned int> pos)
-{
-	m_wordPos = pos;
-}
 
 void MainWindow::highLightWord(const QString word)
 {
-	QList<QTextEdit::ExtraSelection> extraSelections;
-	QColor lineColor = QColor(Qt::yellow).lighter(160);
+
+	QTextEdit::ExtraSelection selection;
+	QTextCharFormat tcf;
+	QTextCursor cursor(editor->document());
+
+	if (!m_wordPosList.empty())
+		clearAllFind();
+
+	m_wordLengt = word.length();
+	m_wordPos = 0;
+
 	if (editor != nullptr)
 	{
 		editor->moveCursor(QTextCursor::Start);
 		while (editor->find(word))
 		{
-			QTextEdit::ExtraSelection selection;
-			selection.format.setBackground(lineColor);
+			tcf.setBackground(Qt::green);
 			selection.cursor = editor->textCursor();
-			extraSelections.append(selection);
+			m_wordPosList.push_back(selection.cursor.position());
+
+			cursor.setPosition(m_wordPosList.back() - m_wordLengt, QTextCursor::MoveAnchor);
+			cursor.setPosition(m_wordPosList.back(), QTextCursor::KeepAnchor);
+			cursor.setCharFormat(tcf);
 		}
 
 	}
+	
+	if (!m_wordPosList.empty())
+		highLightWord(m_wordPosList[m_wordPos] - m_wordLengt, m_wordLengt);
 
+}
+
+void MainWindow::replaceWord(const QString wtr, const QString replacedWord)
+{
+
+}
+
+
+void MainWindow::npHighlightWord(const QString command)
+{
+	if (command == "next")
+	{
+		if (m_wordPos >= m_wordPosList.size() - 1)
+		{
+			m_wordPos = 0;
+			highLightWord(m_wordPosList[m_wordPos] - m_wordLengt, m_wordLengt);
+		}
+		else
+			highLightWord(m_wordPosList[++m_wordPos] - m_wordLengt , m_wordLengt);
+	}
+	else if (command == "prev")
+	{
+		if (m_wordPos == 0)
+		{
+			m_wordPos = m_wordPosList.size() - 1;
+			highLightWord(m_wordPosList[m_wordPos] - m_wordLengt, m_wordLengt);
+		}
+		else
+			highLightWord(m_wordPosList[--m_wordPos] - m_wordLengt , m_wordLengt);
+	}
+
+}
+
+void MainWindow::highLightWord(const int position, const int len)
+{
+	QList<QTextEdit::ExtraSelection> extraSelections;
+	QColor lineColor = QColor(Qt::yellow).lighter(160);
+	QTextEdit::ExtraSelection selection;
+	QTextCursor cursor(editor->document());
+
+	cursor.setPosition(position, QTextCursor::MoveAnchor);
+	cursor.setPosition(position + len, QTextCursor::KeepAnchor);
+	selection.format.setBackground(lineColor);
+	selection.cursor = cursor;
+	extraSelections.append(selection);
 	editor->setExtraSelections(extraSelections);
 
+
+}
+
+void MainWindow::clearAllFind()
+{
+	QTextCharFormat tcf;
+	QTextCursor cursor(editor->document());
+	tcf.setBackground(Qt::white);
+	for (std::vector<unsigned int>::iterator it = m_wordPosList.begin();
+		it != m_wordPosList.end(); ++it)
+	{
+		cursor.setPosition(*it - m_wordLengt, QTextCursor::MoveAnchor);
+		cursor.setPosition(*it, QTextCursor::KeepAnchor);
+		cursor.setCharFormat(tcf);
+	}
+	m_wordPosList.clear();
 }
