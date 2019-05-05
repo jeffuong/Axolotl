@@ -38,3 +38,6 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5PrintSupport.dll ${Axolotl_BINARY_DIR}/src/Release
 )
 endif(WIN32)
+
+# Installation packaging (work on soon)
+#INCLUDE(CPack)
