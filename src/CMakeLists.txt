@@ -38,3 +38,30 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_PREFIX_PATH}/bin/Qt5PrintSupport.dll ${Axolotl_BINARY_DIR}/src/Release
 )
 endif(WIN32)
+
+# Installation packaging 
+install (TARGETS "${CMAKE_PROJECT_NAME}" DESTINATION bin)
+
+install (FILES
+  "${CMAKE_PREFIX_PATH}/bin/Qt5Cored.dll"
+  "${CMAKE_PREFIX_PATH}/bin/Qt5Guid.dll"
+  "${CMAKE_PREFIX_PATH}/bin/Qt5Widgetsd.dll"
+  "${CMAKE_PREFIX_PATH}/bin/Qt5PrintSupportd.dll"
+  DESTINATION bin
+)
+
+install (FILES 
+  "Main.cpp" 
+  "codeeditor.cpp"
+  "files.cpp"
+  "main.cpp"
+  "mainwindow.cpp"
+  "mainwindow.ui" 
+  "findwordwindow.cpp"
+  "findwordwindow.ui"
+  "syntaxhighlighter.cpp"
+  "resources.qrc" 
+  DESTINATION src
+  )
+
+INCLUDE(CPack)
