@@ -29,15 +29,9 @@ MainWindow::MainWindow(QWidget *parent) :
     currentFile = "";
 
     ui->setupUi(this);
-    //this->setCentralWidget(editor);
 
-	// setting layout
-	QHBoxLayout *layout = new QHBoxLayout;
-	layout->addWidget(ui->tabWidget);
-	centralWidget()->setLayout(layout);
-
-	int windowWidth = settings.value("windowWidth", 700).toInt();
-	int windowHeight = settings.value("windowHeight", 500).toInt();
+	int windowWidth = settings.value("windowWidth", 1300).toInt();
+	int windowHeight = settings.value("windowHeight", 650).toInt();
 	MainWindow::resize(windowWidth, windowHeight);
 
 	// setting up initial tab
