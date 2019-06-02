@@ -34,13 +34,23 @@ MainWindow::MainWindow(QWidget *parent) :
 	int windowHeight = settings.value("windowHeight", 650).toInt();
 	MainWindow::resize(windowWidth, windowHeight);
 
-	// setting up initial tab
+	// Setting up initial tab
     newTab();
     connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-	editor->setFocus();
-    highlightCurrentLine();
-
     currentDir = files.getHomeDir();
+
+	// Setting up file directories
+	fileDirectory = new Filedirectory(this);
+	//    -Set up for folder directory model
+	ui->treeView->setModel(fileDirectory->dmodel());
+	QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
+	ui->treeView->setRootIndex(index);
+	for (int i = 1; i < fileDirectory->dmodel()->columnCount(); i++)
+		ui->treeView->hideColumn(i);
+	//    -Set up for file display
+	ui->listView->setModel(fileDirectory->fmodel());
+	index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
+	ui->listView->setRootIndex(index);
 
 	// Setting Up FindWordWindow and Set it connection
 	findWindow = new FindWordWindow(this);
@@ -324,9 +334,20 @@ void MainWindow::highLightWord(const QString word)
 			selection.cursor = editor->textCursor();
 			extraSelections.append(selection);
 		}
-
 	}
 
 	editor->setExtraSelections(extraSelections);
+}
 
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
+{
+	QString sPath = fileDirectory->dmodel()->fileInfo(index).absoluteFilePath();
+	ui->listView->setRootIndex(fileDirectory->fmodel()->setRootPath(sPath));
+}
+
+void MainWindow::on_listView_doubleClicked(const QModelIndex &index)
+{
+	newTab();
+	QString file = fileDirectory->fmodel()->fileInfo(index).absoluteFilePath();
+	open(file);
 }
