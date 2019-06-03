@@ -18,12 +18,6 @@ public:
 
    ~Filedirectory();
 
-//protected:
-    //virtual void keypressEvent(QKeyEvent* event);
-
-//signals:
-    //void rootIndexChange(const QModelIndex& index);
-
 private:
     QFileSystemModel *dirModel;
     QFileSystemModel *fileModel;

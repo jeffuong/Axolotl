@@ -148,6 +148,27 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     currentFile = editor->getFilePath();
 
     highlightCurrentLine();
+
+	// get location of current file and display its' contents
+	if (currentFile != "")
+	{
+		currentDir = files.getDir(currentFile);
+		// for folder directory to populate when opening new files
+		fileDirectory->changePath(currentDir);
+		fileDirectory->dmodel()->setRootPath(currentDir);
+		QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
+		ui->treeView->setRootIndex(index);
+
+		// not necessary, but keeps the bottom fileDir a bit more consise
+		fileDirectory->fmodel()->setRootPath(currentDir);
+		index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
+		ui->listView->setRootIndex(index);
+	}
+	/*else
+	{
+		// implementation for when we switch to a new tab
+		// goes here...
+	}*/
 }
 
 /*
@@ -184,6 +205,17 @@ void MainWindow::open(QString file)
 
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
         currentDir = files.getDir(currentFile);
+
+		// for folder directory to populate when opening new files
+		fileDirectory->changePath(currentDir);
+		fileDirectory->dmodel()->setRootPath(currentDir);
+		QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
+		ui->treeView->setRootIndex(index);
+
+		// not necessary, but keeps the bottom fileDir a bit more consise
+		fileDirectory->fmodel()->setRootPath(currentDir);
+		index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
+		ui->listView->setRootIndex(index);
     }
 }
 

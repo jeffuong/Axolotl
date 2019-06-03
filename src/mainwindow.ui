@@ -63,8 +63,6 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="actionPrint"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit_2"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
