@@ -5,7 +5,10 @@
 Filedirectory::Filedirectory(QWidget *parent) :
 	QListView(parent)
 {
-	sPath = "/home";
+	// for other OS's, check the link for paths
+	// https://doc-snapshots.qt.io/qt5-5.11/qstandardpaths.html
+	//sPath = "/home";
+	sPath = "C:/Users/<USER>"; // Windows path
 	dirModel = new QFileSystemModel(this);
 	dirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
 	dirModel->setRootPath(sPath);

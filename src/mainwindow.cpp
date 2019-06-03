@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	int windowWidth = settings.value("windowWidth", 1300).toInt();
 	int windowHeight = settings.value("windowHeight", 650).toInt();
 	MainWindow::resize(windowWidth, windowHeight);
-
+	
 	// Setting up initial tab
     newTab();
     connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
@@ -249,7 +249,9 @@ void MainWindow::on_actionPrint_triggered()
 
 void MainWindow::on_actionExit_2_triggered()
 {
-    QCoreApplication::quit();
+    //QCoreApplication::quit();
+	// Changing this to a hide button
+	ui->mainToolBar->hide();
 }
 
 void MainWindow::on_actionCopy_triggered()
