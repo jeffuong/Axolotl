@@ -1,10 +1,10 @@
 #ifndef FILEDIRECTORY_H
 #define FILEDIRECTORY_H
 
-#include <QListView>
+#include <QDialog>
 #include <QFileSystemModel>
 
-class Filedirectory : public QListView
+class Filedirectory : public QDialog
 {
     Q_OBJECT
 

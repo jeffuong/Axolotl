@@ -3,7 +3,7 @@
 #include <QKeyEvent>
 
 Filedirectory::Filedirectory(QWidget *parent) :
-	QListView(parent)
+	QDialog(parent)
 {
 	// for other OS's, check the link for paths
 	// https://doc-snapshots.qt.io/qt5-5.11/qstandardpaths.html
