@@ -33,13 +33,15 @@ SOURCES += \
         mainwindow.cpp \
 		codeeditor.cpp \
     files.cpp \
-    syntaxhighlighter.cpp
+    syntaxhighlighter.cpp \
+    filedirectory.cpp
 
 HEADERS += \
         mainwindow.h \
 		codeeditor.h \
     files.h \
-    syntaxhighlighter.h
+    syntaxhighlighter.h \
+    filedirectory.h
 
 FORMS += \
         mainwindow.ui

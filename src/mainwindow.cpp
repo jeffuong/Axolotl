@@ -29,24 +29,28 @@ MainWindow::MainWindow(QWidget *parent) :
     currentFile = "";
 
     ui->setupUi(this);
-    //this->setCentralWidget(editor);
 
-	// setting layout
-	QHBoxLayout *layout = new QHBoxLayout;
-	layout->addWidget(ui->tabWidget);
-	centralWidget()->setLayout(layout);
-
-	int windowWidth = settings.value("windowWidth", 700).toInt();
-	int windowHeight = settings.value("windowHeight", 500).toInt();
+	int windowWidth = settings.value("windowWidth", 1300).toInt();
+	int windowHeight = settings.value("windowHeight", 650).toInt();
 	MainWindow::resize(windowWidth, windowHeight);
 
-	// setting up initial tab
+	// Setting up initial tab
     newTab();
     connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-	editor->setFocus();
-    highlightCurrentLine();
-
     currentDir = files.getHomeDir();
+
+	// Setting up file directories
+	fileDirectory = new Filedirectory(this);
+	//    -Set up for folder directory model
+	ui->treeView->setModel(fileDirectory->dmodel());
+	QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
+	ui->treeView->setRootIndex(index);
+	for (int i = 1; i < fileDirectory->dmodel()->columnCount(); i++)
+		ui->treeView->hideColumn(i);
+	//    -Set up for file display
+	ui->listView->setModel(fileDirectory->fmodel());
+	index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
+	ui->listView->setRootIndex(index);
 
 	// Setting Up FindWordWindow and Set it connection
 	findWindow = new FindWordWindow(this);
@@ -144,6 +148,27 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     currentFile = editor->getFilePath();
 
     highlightCurrentLine();
+
+	// get location of current file and display its' contents
+	if (currentFile != "")
+	{
+		currentDir = files.getDir(currentFile);
+		// for folder directory to populate when opening new files
+		fileDirectory->changePath(currentDir);
+		fileDirectory->dmodel()->setRootPath(currentDir);
+		QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
+		ui->treeView->setRootIndex(index);
+
+		// not necessary, but keeps the bottom fileDir a bit more consise
+		fileDirectory->fmodel()->setRootPath(currentDir);
+		index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
+		ui->listView->setRootIndex(index);
+	}
+	/*else
+	{
+		// implementation for when we switch to a new tab
+		// goes here...
+	}*/
 }
 
 /*
@@ -180,6 +205,17 @@ void MainWindow::open(QString file)
 
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
         currentDir = files.getDir(currentFile);
+
+		// for folder directory to populate when opening new files
+		fileDirectory->changePath(currentDir);
+		fileDirectory->dmodel()->setRootPath(currentDir);
+		QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
+		ui->treeView->setRootIndex(index);
+
+		// not necessary, but keeps the bottom fileDir a bit more consise
+		fileDirectory->fmodel()->setRootPath(currentDir);
+		index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
+		ui->listView->setRootIndex(index);
     }
 }
 
@@ -245,7 +281,9 @@ void MainWindow::on_actionPrint_triggered()
 
 void MainWindow::on_actionExit_2_triggered()
 {
-    QCoreApplication::quit();
+    //QCoreApplication::quit();
+	// Changing this to a hide button
+	ui->mainToolBar->hide();
 }
 
 void MainWindow::on_actionCopy_triggered()
@@ -330,9 +368,19 @@ void MainWindow::highLightWord(const QString word)
 			selection.cursor = editor->textCursor();
 			extraSelections.append(selection);
 		}
-
 	}
 
 	editor->setExtraSelections(extraSelections);
+}
 
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
+{
+	QString sPath = fileDirectory->dmodel()->fileInfo(index).absoluteFilePath();
+	ui->listView->setRootIndex(fileDirectory->fmodel()->setRootPath(sPath));
+}
+
+void MainWindow::on_listView_doubleClicked(const QModelIndex &index)
+{
+	QString file = fileDirectory->fmodel()->fileInfo(index).absoluteFilePath();
+	open(file);
 }

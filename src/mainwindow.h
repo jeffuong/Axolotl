@@ -9,6 +9,7 @@
 #include "codeeditor.h"
 #include "files.h"
 #include "syntaxhighlighter.h"
+#include "filedirectory.h"
 
 namespace Ui 
 {
@@ -69,6 +70,9 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_treeView_clicked(const QModelIndex &index);
+
+    void on_listView_doubleClicked(const QModelIndex &index);
 
 signals:
 	void sendText(const QString);
@@ -82,11 +86,12 @@ private:
     QSettings settings;
     QString currentDir;
 
+	Filedirectory *fileDirectory;
 	FindWordWindow *findWindow;
 	std::vector<unsigned int> m_wordPos;
 	void keyPressEvent(QKeyEvent*);
     SyntaxHighlighter *syntaxHighlighter;
-	//QTabBar *tabBar; // can turn tabs to thi s later on
+	//QTabBar *tabBar; // can turn tabs to this later on
 };
 
 #endif // MAINWINDOW_H
