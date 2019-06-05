@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QTabBar>
+#include <QLabel>
 
 #include "findwordwindow.h"
 #include "codeeditor.h"
@@ -39,6 +40,8 @@ private slots:
     void open(QString file);
 
     void save();
+
+	void followUpActions();
 
     void highlightCurrentLine();
 
@@ -91,6 +94,7 @@ private:
 	std::vector<unsigned int> m_wordPos;
 	void keyPressEvent(QKeyEvent*);
     SyntaxHighlighter *syntaxHighlighter;
+	QLabel *statusBarLabels;
 	//QTabBar *tabBar; // can turn tabs to this later on
 };
 

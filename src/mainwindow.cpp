@@ -56,6 +56,11 @@ MainWindow::MainWindow(QWidget *parent) :
 	findWindow = new FindWordWindow(this);
 	connect(this, SIGNAL(sendText(QString)), findWindow, SLOT(setText(QString)));
 
+	// Setting up for status bar
+	statusBarLabels = new QLabel(this);
+
+	//ALL OF THESE SETUPS SHOULD MAYBE GOIN NEWTAB();
+
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
     ui->actionPrint->setEnabled(false);
@@ -149,25 +154,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
     highlightCurrentLine();
 
-	// get location of current file and display its' contents
 	if (currentFile != "")
-	{
-		currentDir = files.getDir(currentFile);
-		// for folder directory to populate when opening new files
-		fileDirectory->changePath(currentDir);
-		fileDirectory->dmodel()->setRootPath(currentDir);
-		QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
-		ui->treeView->setRootIndex(index);
-
-		// not necessary, but keeps the bottom fileDir a bit more consise
-		fileDirectory->fmodel()->setRootPath(currentDir);
-		index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
-		ui->listView->setRootIndex(index);
-	}
+		followUpActions();
 	/*else
 	{
-		// implementation for when we switch to a new tab
-		// goes here...
+		// implement followUpActions for a no file tab switch
 	}*/
 }
 
@@ -204,18 +195,8 @@ void MainWindow::open(QString file)
             ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), currentFile);
 
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
-        currentDir = files.getDir(currentFile);
 
-		// for folder directory to populate when opening new files
-		fileDirectory->changePath(currentDir);
-		fileDirectory->dmodel()->setRootPath(currentDir);
-		QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
-		ui->treeView->setRootIndex(index);
-
-		// not necessary, but keeps the bottom fileDir a bit more consise
-		fileDirectory->fmodel()->setRootPath(currentDir);
-		index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
-		ui->listView->setRootIndex(index);
+		followUpActions();
     }
 }
 
@@ -223,13 +204,42 @@ void MainWindow::save()
 {
     if (currentFile == "")
         on_actionSave_as_triggered();
-    else
-        files.write(currentFile, editor->toPlainText());
+	else
+	{
+		files.write(currentFile, editor->toPlainText());
+		ui->statusBar->showMessage("Saved", 2000);
+	}
 }
 
 /*
 	MENU ACTIONS & MISC.
 */
+
+void MainWindow::followUpActions()
+{
+	// follow up ui actions for save as, tab changing, open, etc.
+
+	currentDir = files.getDir(currentFile);
+	// for folder directory to populate when opening new files
+	fileDirectory->changePath(currentDir);
+	fileDirectory->dmodel()->setRootPath(currentDir);
+	QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
+	ui->treeView->setRootIndex(index);
+
+	// not necessary, but keeps the bottom fileDir a bit more consise
+	fileDirectory->fmodel()->setRootPath(currentDir);
+	index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
+	ui->listView->setRootIndex(index);
+
+	// status bar file types (permanent category)
+	QString fileType = getFileType(currentFile);
+	statusBarLabels->setText(fileType.toUpper());
+	ui->statusBar->addPermanentWidget(statusBarLabels);
+
+	// line counts (normal category) 
+	// impl later
+
+}
 
 void MainWindow::on_actionNew_triggered()
 {
@@ -261,6 +271,10 @@ void MainWindow::on_actionSave_as_triggered()
 
         ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), currentFile.right(21));
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
+		
+		ui->statusBar->showMessage("Saved", 2000);
+
+		followUpActions();
     }
 }
 
