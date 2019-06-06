@@ -26,28 +26,28 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    currentFile = "";
+  currentFile = "";
 
-    ui->setupUi(this);
+  ui->setupUi(this);
 
 	int windowWidth = settings.value("windowWidth", 1300).toInt();
 	int windowHeight = settings.value("windowHeight", 650).toInt();
 	MainWindow::resize(windowWidth, windowHeight);
 
 	// Setting up initial tab
-    newTab();
-    connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-    currentDir = files.getHomeDir();
+  newTab();
+  connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+  currentDir = files.getHomeDir();
 
 	// Setting up file directories
 	fileDirectory = new Filedirectory(this);
-	//    -Set up for folder directory model
+	//Set up for folder directory model
 	ui->treeView->setModel(fileDirectory->dmodel());
 	QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
 	ui->treeView->setRootIndex(index);
 	for (int i = 1; i < fileDirectory->dmodel()->columnCount(); i++)
 		ui->treeView->hideColumn(i);
-	//    -Set up for file display
+	//Set up for file display
 	ui->listView->setModel(fileDirectory->fmodel());
 	index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
 	ui->listView->setRootIndex(index);
@@ -58,8 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	// Setting up for status bar
 	statusBarLabels = new QLabel(this);
-
-	//ALL OF THESE SETUPS SHOULD MAYBE GOIN NEWTAB();
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
@@ -86,19 +84,19 @@ void MainWindow::highlightCurrentLine()
 {
     if (editor != nullptr)
     {
-        QList<QTextEdit::ExtraSelection> extraSelections;
-        QTextEdit::ExtraSelection selection;
+      QList<QTextEdit::ExtraSelection> extraSelections;
+      QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::cyan).lighter(160);
+      QColor lineColor = QColor(Qt::cyan).lighter(160);
 
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = editor->textCursor();
-        selection.cursor.clearSelection();
-        extraSelections.append(selection);
+      selection.format.setBackground(lineColor);
+      selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+      selection.cursor = editor->textCursor();
+      selection.cursor.clearSelection();
+      extraSelections.append(selection);
 
-        editor->setExtraSelections(extraSelections);
-		setupSyntaxHighlighter();
+      editor->setExtraSelections(extraSelections);
+		  setupSyntaxHighlighter();
     }
 }
 
@@ -117,13 +115,13 @@ void MainWindow::newTab()
 	{
 		/* this names tabs as "New File (#)" based on position  
 		   rather than number of new files made, fix later */
-        ui->tabWidget->addTab(new CodeEditor, 
-		    QString("New File %0").arg(ui->tabWidget->count() + 1));
-		ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
-		ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), "");
-		currentFile = "";
+      ui->tabWidget->addTab(new CodeEditor, 
+		  QString("New File %0").arg(ui->tabWidget->count() + 1));
+		  ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+		  ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), "");
+		  currentFile = "";
 
-		editor->setWordWrapMode(QTextOption::NoWrap);
+		  editor->setWordWrapMode(QTextOption::NoWrap);
 	}
 }
 
@@ -154,12 +152,12 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
     highlightCurrentLine();
 
-	if (currentFile != "")
-		followUpActions();
-	/*else
-	{
-		// implement followUpActions for a no file tab switch
-	}*/
+	  if (currentFile != "")
+		    followUpActions();
+	  /*else
+	  {
+		  // implement followUpActions for a no file tab switch
+	  }*/
 }
 
 /*
@@ -196,7 +194,7 @@ void MainWindow::open(QString file)
 
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
 
-		followUpActions();
+		    followUpActions();
     }
 }
 
@@ -204,11 +202,11 @@ void MainWindow::save()
 {
     if (currentFile == "")
         on_actionSave_as_triggered();
-	else
-	{
-		files.write(currentFile, editor->toPlainText());
-		ui->statusBar->showMessage("Saved", 2000);
-	}
+	  else
+	  {
+		    files.write(currentFile, editor->toPlainText());
+		    ui->statusBar->showMessage("Saved", 2000);
+	  }
 }
 
 /*
@@ -238,7 +236,6 @@ void MainWindow::followUpActions()
 
 	// line counts (normal category) 
 	// impl later
-
 }
 
 void MainWindow::on_actionNew_triggered()
@@ -272,9 +269,9 @@ void MainWindow::on_actionSave_as_triggered()
         ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), currentFile.right(21));
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
 		
-		ui->statusBar->showMessage("Saved", 2000);
+		    ui->statusBar->showMessage("Saved", 2000);
 
-		followUpActions();
+		    followUpActions();
     }
 }
 

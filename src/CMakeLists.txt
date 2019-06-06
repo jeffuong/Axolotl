@@ -6,6 +6,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# When adding files here, please add them into the install files below as well
 set(main_src 
   "codeeditor.cpp"
   "files.cpp"
@@ -55,14 +56,15 @@ install (FILES
   "Main.cpp" 
   "codeeditor.cpp"
   "files.cpp"
+  "filedirectory.cpp"
   "main.cpp"
   "mainwindow.cpp"
   "mainwindow.ui" 
   "findwordwindow.cpp"
   "findwordwindow.ui"
   "syntaxhighlighter.cpp"
-  "resources.qrc" 
+  "resources.qrc"
   DESTINATION src
-  )
+)
 
 INCLUDE(CPack)
