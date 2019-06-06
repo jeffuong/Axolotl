@@ -41,13 +41,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	// Setting up file directories
 	fileDirectory = new Filedirectory(this);
-	//    -Set up for folder directory model
+	//Set up for folder directory model
 	ui->treeView->setModel(fileDirectory->dmodel());
 	QModelIndex index = fileDirectory->dmodel()->index(fileDirectory->getPath(), 0);
 	ui->treeView->setRootIndex(index);
 	for (int i = 1; i < fileDirectory->dmodel()->columnCount(); i++)
 		ui->treeView->hideColumn(i);
-	//    -Set up for file display
+	//Set up for file display
 	ui->listView->setModel(fileDirectory->fmodel());
 	index = fileDirectory->fmodel()->index(fileDirectory->getPath(), 0);
 	ui->listView->setRootIndex(index);
@@ -58,8 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	// Setting up for status bar
 	statusBarLabels = new QLabel(this);
-
-	//ALL OF THESE SETUPS SHOULD MAYBE GOIN NEWTAB();
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
@@ -238,7 +236,6 @@ void MainWindow::followUpActions()
 
 	// line counts (normal category) 
 	// impl later
-
 }
 
 void MainWindow::on_actionNew_triggered()

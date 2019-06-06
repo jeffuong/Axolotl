@@ -7,7 +7,7 @@ This repository is a C++ project trying to recreate a cross-platform text editor
 
 The Axolotl icon was provided by [Kisspng](https://www.kisspng.com) and edited through Gimp.
 
-![Demo](https://user-images.githubusercontent.com/25240780/52088241-381ca400-2560-11e9-9e62-98f9d2b570f1.gif)
+![Demo](https://user-images.githubusercontent.com/25240780/59009810-f2106f00-87e3-11e9-8d7d-106c6c87e01c.gif)
 
 ## Getting Started
 
