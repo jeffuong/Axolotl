@@ -1,6 +1,7 @@
 # Axolotl
 <img align="left" src="https://github.com/jeffuong/Notefad/blob/master/src/imgs/readmeicon.png" alt="Axolotl" height="100px"/>
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf85c7adebd24d3d8499b108f23b6cbe)](https://app.codacy.com/app/Erctrn/Axolotl?utm_source=github.com&utm_medium=referral&utm_content=jeffuong/Axolotl&utm_campaign=Badge_Grade_Settings)
 [![Build Status](http://54.153.72.145/job/Axolotl/job/master/badge/icon)](http://54.153.72.145/job/Axolotl/job/master/)
 
 This repository is a C++ project trying to recreate a cross-platform text editor similar to Sublime/Visual Studio Code using the Qt 5 library.
