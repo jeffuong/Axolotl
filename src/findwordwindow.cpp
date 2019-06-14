@@ -57,7 +57,8 @@ void FindWordWindow::setText(const QString &text)
 std::vector<unsigned int> FindWordWindow::findWord(const QString textDoc, const QString word) const
 {
 	std::vector<unsigned int> wordPos;
-	for (unsigned int it = 0; it < textDoc.size(); it++)
+	unsigned int size = textDoc.size();
+	for (unsigned int it = 0; it < size; it++)
 	{
 		unsigned int fristLetterOfWord = it;
 		QString tempWord = "";
