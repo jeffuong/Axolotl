@@ -359,7 +359,7 @@ void MainWindow::findButtonPressed()
 	qDebug() << m_wordPos[0];*/
 }
 
-void MainWindow::setWordPos(const std::vector<unsigned int> pos)
+void MainWindow::setWordPos(const std::vector<unsigned int>& pos)
 {
 	m_wordPos = pos;
 }
@@ -393,4 +393,11 @@ void MainWindow::on_listView_doubleClicked(const QModelIndex &index)
 {
 	QString file = fileDirectory->fmodel()->fileInfo(index).absoluteFilePath();
 	open(file);
+}
+void MainWindow::on_actionAbout_Axoltl_triggered()
+{
+	QMessageBox::about(this, tr("About Axolotl"),
+		tr( "<body><b>Axolotl</b> is a cross-platform text editor made in Qt."
+			"<br><br>Experiencing a bug or have an idea? Open an issue on the Github!</body>"
+		));
 }

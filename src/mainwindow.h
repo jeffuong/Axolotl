@@ -28,7 +28,7 @@ public:
 
 public slots:
 	void findButtonPressed();
-	void setWordPos(const std::vector<unsigned int>);
+	void setWordPos(const std::vector<unsigned int>&);
 	void highLightWord(const QString);
 
 private slots:
@@ -76,6 +76,8 @@ private slots:
     void on_treeView_clicked(const QModelIndex &index);
 
     void on_listView_doubleClicked(const QModelIndex &index);
+
+    void on_actionAbout_Axoltl_triggered();
 
 signals:
 	void sendText(const QString);
