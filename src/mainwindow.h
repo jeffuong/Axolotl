@@ -5,12 +5,20 @@
 #include <QSettings>
 #include <QTabBar>
 #include <QLabel>
+#include <QDir>
+#include <QStringList>
 
 #include "findwordwindow.h"
 #include "codeeditor.h"
 #include "files.h"
 #include "syntaxhighlighter.h"
 #include "filedirectory.h"
+
+QT_BEGIN_NAMESPACE
+class QAction;
+class QActionGroup;
+class QMenu;
+QT_END_NAMESPACE
 
 namespace Ui 
 {
@@ -34,57 +42,37 @@ public slots:
 private slots:
 
     QString getFileType(QString file);
-
     void newTab();
-
     void open(QString file);
-
     void save();
-
 	void followUpActions();
-
     void highlightCurrentLine();
-
+	//void highlightCurrentLine(const QColor& setColor); // default cyan
     void on_actionNew_triggered();
-
     void on_actionOpen_triggered();
-
     void on_actionSave_triggered();
-
     void on_actionSave_as_triggered();
-
     void on_actionPrint_triggered();
-
     void on_actionExit_2_triggered();
-
     void on_actionCopy_triggered();
-
     void on_actionPaste_triggered();
-
     void on_actionCut_triggered();
-
     void on_actionUndo_triggered();
-
     void on_actionRedo_triggered();
-
     void on_actionFont_triggered();
-
     void on_tabWidget_tabCloseRequested(int index);
-
     void on_tabWidget_currentChanged(int index);
-
     void on_treeView_clicked(const QModelIndex &index);
-
     void on_listView_doubleClicked(const QModelIndex &index);
-
     void on_actionAbout_Axoltl_triggered();
+	void aboutPlugins();
+    void on_actionAbout_Plugins_triggered();
+	void applyTests();
 
 signals:
 	void sendText(const QString);
 
 private:
-    void setupSyntaxHighlighter();
-
     Ui::MainWindow *ui;
     QString currentFile;
     Files files;
@@ -97,7 +85,19 @@ private:
 	void keyPressEvent(QKeyEvent*);
     SyntaxHighlighter *syntaxHighlighter;
 	QLabel *statusBarLabels;
-	//QTabBar *tabBar; // can turn tabs to this later on
+	
+	QDir pluginsDir;
+	QStringList pluginFileNames;
+	QMenu *testerMenu = nullptr;
+	QAction *aboutPluginsAct = nullptr;
+
+	typedef void (MainWindow::*Member)();
+	void loadPlugins();
+	void createTesterMenu();
+	void populateMenus(QObject *plugin);
+	void addToMenu(QObject *plugin, const QStringList &texts, QMenu *menu,
+		Member member);
+	QColor lineColor = QColor(Qt::cyan).lighter(160); // plug color testing
 };
 
 #endif // MAINWINDOW_H
