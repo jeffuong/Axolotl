@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "plugindialog.h"
+#include "plugininterfaces.h"
+
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
@@ -35,9 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	MainWindow::resize(windowWidth, windowHeight);
 
 	// Setting up initial tab
-  newTab();
-  connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-  currentDir = files.getHomeDir();
+    newTab();
+    connect(editor, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+    currentDir = files.getHomeDir();
 
 	// Setting up file directories
 	fileDirectory = new Filedirectory(this);
@@ -58,6 +61,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	// Setting up for status bar
 	statusBarLabels = new QLabel(this);
+
+	// TESTING PLUGINS
+	createTesterMenu();
+	loadPlugins();
 
 // Disable menu actions for unavailable features
 #if !QT_CONFIG(printer)
@@ -87,7 +94,7 @@ void MainWindow::highlightCurrentLine()
       QList<QTextEdit::ExtraSelection> extraSelections;
       QTextEdit::ExtraSelection selection;
 
-      QColor lineColor = QColor(Qt::cyan).lighter(160);
+      //QColor lineColor = QColor(Qt::cyan).lighter(160);
 
       selection.format.setBackground(lineColor);
       selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -96,13 +103,8 @@ void MainWindow::highlightCurrentLine()
       extraSelections.append(selection);
 
       editor->setExtraSelections(extraSelections);
-		  setupSyntaxHighlighter();
+	  syntaxHighlighter = new SyntaxHighlighter(editor->document());
     }
-}
-
-void MainWindow::setupSyntaxHighlighter()
-{
-    syntaxHighlighter = new SyntaxHighlighter(editor->document());
 }
 
 /*
@@ -152,12 +154,12 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
     highlightCurrentLine();
 
-	  if (currentFile != "")
-		    followUpActions();
-	  /*else
-	  {
-		  // implement followUpActions for a no file tab switch
-	  }*/
+	if (currentFile != "")
+		followUpActions();
+	/*else
+	{
+		// implement followUpActions for a no file tab switch
+	}*/
 }
 
 /*
@@ -194,7 +196,7 @@ void MainWindow::open(QString file)
 
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
 
-		    followUpActions();
+		followUpActions();
     }
 }
 
@@ -202,11 +204,11 @@ void MainWindow::save()
 {
     if (currentFile == "")
         on_actionSave_as_triggered();
-	  else
-	  {
-		    files.write(currentFile, editor->toPlainText());
-		    ui->statusBar->showMessage("Saved", 2000);
-	  }
+	else
+	{
+		files.write(currentFile, editor->toPlainText());
+		ui->statusBar->showMessage("Saved", 2000);
+	}
 }
 
 /*
@@ -268,10 +270,9 @@ void MainWindow::on_actionSave_as_triggered()
 
         ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), currentFile.right(21));
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), currentFile);
-		
-		    ui->statusBar->showMessage("Saved", 2000);
+		ui->statusBar->showMessage("Saved", 2000);
 
-		    followUpActions();
+		followUpActions();
     }
 }
 
@@ -360,7 +361,7 @@ void MainWindow::findButtonPressed()
 	qDebug() << m_wordPos[0];*/
 }
 
-void MainWindow::setWordPos(const std::vector<unsigned int> pos)
+void MainWindow::setWordPos(const std::vector<unsigned int>& pos)
 {
 	m_wordPos = pos;
 }
@@ -394,4 +395,94 @@ void MainWindow::on_listView_doubleClicked(const QModelIndex &index)
 {
 	QString file = fileDirectory->fmodel()->fileInfo(index).absoluteFilePath();
 	open(file);
+}
+void MainWindow::on_actionAbout_Axoltl_triggered()
+{
+	QMessageBox::about(this, tr("About Axolotl"),
+		tr( "<body><b>Axolotl</b> is a cross-platform text editor made in Qt."
+			"<br><br>Experiencing a bug or have an idea? Open an issue on the Github!</body>"
+		));
+}
+
+/* 
+	PLUGINS 
+*/
+
+void MainWindow::aboutPlugins()
+{
+	PluginDialog dialog(pluginsDir.path(), pluginFileNames, this);
+	dialog.exec();
+}
+
+void MainWindow::on_actionAbout_Plugins_triggered()
+{
+	QTimer::singleShot(500, this, &MainWindow::aboutPlugins);
+}
+
+void MainWindow::loadPlugins()
+{
+	const auto staticInstances = QPluginLoader::staticInstances();
+	for (QObject *plugin : staticInstances)
+		populateMenus(plugin);
+
+	pluginsDir = QDir(qApp->applicationDirPath()); // at projectfolder/build/src
+
+#if defined(Q_OS_WIN)
+	if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
+		pluginsDir.cdUp();
+#elif defined(Q_OS_MAC)
+	if (pluginsDir.dirName() == "MacOS") {
+		pluginsDir.cdUp();
+		pluginsDir.cdUp();
+		pluginsDir.cdUp();
+	}
+#endif
+	//pluginsDir.cd("plugins");
+
+	const auto entryList = pluginsDir.entryList(QDir::Files);
+	for (const QString &fileName : entryList) 
+	{
+		QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+		QObject *plugin = loader.instance();
+		if (plugin) 
+		{
+			populateMenus(plugin);
+			pluginFileNames += fileName;
+		}
+	}
+	
+	testerMenu->setEnabled(!testerMenu->actions().isEmpty());
+}
+
+void MainWindow::populateMenus(QObject *plugin)
+{
+	auto tester = qobject_cast<PluginInterfaces *>(plugin);
+	if (tester)
+		addToMenu(plugin, tester->color(), testerMenu, &MainWindow::applyTests);
+}
+
+void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
+	QMenu *menu, Member member)
+{
+	for (const QString &text : texts) 
+	{
+		auto action = new QAction(text, plugin);
+		connect(action, &QAction::triggered, this, member);
+		menu->addAction(action);
+	}
+}
+
+void MainWindow::createTesterMenu()
+{
+	testerMenu = menuBar()->addMenu(tr("&Plugin Test"));
+}
+
+void MainWindow::applyTests()
+{
+	auto action = qobject_cast<QAction *>(sender());
+	auto tester = qobject_cast<PluginInterfaces *>(action->parent());
+
+	const QColor color = tester->changeColor(action->text());
+
+	lineColor = color;
 }

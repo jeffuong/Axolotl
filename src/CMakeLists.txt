@@ -18,11 +18,15 @@ set(main_src
   "findwordwindow.ui"
   "syntaxhighlighter.cpp"
   "resources.qrc"
+  
+  "plugindialog.cpp"
 )
 
 add_executable(Axolotl ${main_src})
-target_link_libraries(Axolotl Qt5::Widgets)
-target_link_libraries(Axolotl Qt5::PrintSupport)
+
+target_link_libraries(Axolotl Qt5::Widgets
+                              Qt5::PrintSupport
+)
 
 # Copying Qt binaries for Windows
 if(WIN32)
@@ -49,6 +53,7 @@ install (FILES
   "${CMAKE_PREFIX_PATH}/bin/Qt5Guid.dll"
   "${CMAKE_PREFIX_PATH}/bin/Qt5Widgetsd.dll"
   "${CMAKE_PREFIX_PATH}/bin/Qt5PrintSupportd.dll"
+
   DESTINATION bin
 )
 
@@ -64,6 +69,8 @@ install (FILES
   "findwordwindow.ui"
   "syntaxhighlighter.cpp"
   "resources.qrc"
+
+  "plugindialog.cpp"
   DESTINATION src
 )
 

@@ -85,6 +85,7 @@
     <property name="title">
      <string>Plugins</string>
     </property>
+    <addaction name="actionAbout_Plugins"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -262,6 +263,11 @@
   <action name="actionAbout_Axoltl">
    <property name="text">
     <string>About Axoltl</string>
+   </property>
+  </action>
+  <action name="actionAbout_Plugins">
+   <property name="text">
+    <string>About Plugins</string>
    </property>
   </action>
  </widget>
